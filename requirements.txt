@@ -1,0 +1,5 @@
+genanki
+pypinyin
+googletrans
+cedict-utils
+dataclasses

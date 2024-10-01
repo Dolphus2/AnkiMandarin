@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "anki_mandarin"
+authors = [
+    {name = "Gabriel Agerholm Ruge", email = "gabrielruge@gmail.com"}
+]
+description = "Automating the creating of mandarin anki cards from words and example sentences."
+version = "1.0.0"
+readme = "README.md"
+requires-python = ">=3.10"
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+[tool.setuptools]
+packages = ["anki_mandarin"]
