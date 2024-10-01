@@ -164,4 +164,4 @@ cython_debug/
 /Testing
 
 Output/*
-!Output/
+!Output/.gitkeep
