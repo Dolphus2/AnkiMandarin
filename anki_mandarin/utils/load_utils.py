@@ -12,7 +12,9 @@ def read_words_from_csv(file_path):
         with open(file_path, newline='', encoding='utf-8') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                word_sentence_list.append((row['word'], row['sentence']))
+                # Check if 'sentence translation' column exists, if not, add a placeholder (None)
+                sentence_translation = row.get('sentence_translation', None)
+                word_sentence_list.append((row['word'], row['sentence'], sentence_translation))
     except Exception as e:
         print(f"Error reading CSV file: {e}")
 

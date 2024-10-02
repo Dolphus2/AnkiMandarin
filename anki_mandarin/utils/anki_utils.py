@@ -9,10 +9,9 @@ import genanki
 def create_mandarin_model():
     # Create a new Anki model for Mandarin flashcards with custom templates and CSS
     return genanki.Model(
-        1297553304,
-        'Advanced Model with All Refold Mandarin 1k Fields',
+        1411383834,
+        'Refold_genanki_1.0', #Advanced Model with All Refold Mandarin 1k Fields#
         fields=[
-            {'name': 'Key'},
             {'name': 'Simplified'},
             {'name': 'Traditional'},
             {'name': 'Pinyin'},
@@ -26,7 +25,8 @@ def create_mandarin_model():
             {'name': 'SentenceAudio'},
             {'name': 'SentenceImage'},
             {'name': 'Note'},
-            {'name': 'TwPronunciation'}
+            {'name': 'TwPronunciation'},
+            {'name': 'Key'}
         ],
         templates=[
             {
@@ -187,12 +187,12 @@ def create_anki_flashcards(word_sentence_list, cedict_dict, init_idx = 1, output
 
     # Create a new Anki deck
     my_deck = genanki.Deck(
-        1496240689,
+        1975033564,
         'Mandarin Flashcards')
 
     # Loop over the words and sentences
     key = init_idx -1
-    for word, sentence in word_sentence_list:
+    for word, sentence, sentence_translation in word_sentence_list:
         key += 1
         word_pinyin = generate_pinyin(word)
         sentence_pinyin = generate_pinyin(sentence)
@@ -205,8 +205,8 @@ def create_anki_flashcards(word_sentence_list, cedict_dict, init_idx = 1, output
         else:
             traditional = ''
             meaning = ''
-
-        sentence_english = translate_to_english(sentence)
+        
+        sentence_english = sentence_translation if sentence_translation is not None else translate_to_english(sentence)
 
         # Handle errors in any field (skip the card if data is incomplete)
         if word_pinyin is None or meaning is None or sentence_pinyin is None or sentence_english is None:
@@ -217,7 +217,6 @@ def create_anki_flashcards(word_sentence_list, cedict_dict, init_idx = 1, output
         my_note = genanki.Note(
             model=my_model,
             fields=[
-                str(key),             # 'Key' (some numeric or unique identifier)
                 word,                 # 'Simplified' (simplified Chinese characters)
                 traditional,          # 'Traditional' (traditional Chinese characters)
                 word_pinyin,          # 'Pinyin' (pinyin with tone marks)
@@ -231,7 +230,8 @@ def create_anki_flashcards(word_sentence_list, cedict_dict, init_idx = 1, output
                 '',                   # 'SentenceAudio' (left empty for now)
                 '',                   # 'SentenceImage' (optional, left empty for now)
                 '',                   # 'Note' (optional, left empty for now)
-                ''                    # 'TwPronunciation' (optional, left empty for now)
+                '',                   # 'TwPronunciation' (optional, left empty for now)
+                str(key)              # 'Key' (some numeric or unique identifier)
             ])
 
         # Add the note to the deck
