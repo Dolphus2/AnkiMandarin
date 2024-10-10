@@ -263,7 +263,10 @@ def create_anki_flashcards(word_sentence_list, cedict_dict, init_idx = 1, output
         'Python_output')
 
     # Loop over the words and sentences
-    for word, sentence, sentence_translation in word_sentence_list:
+    for row in word_sentence_list:
+        word, sentence, sentence_translation, part_of_speech = \
+            (row['word'], row['sentence'], row['sentence_translation'], row['part_of_speech'])
+
         key = word
         word_pinyin = generate_pinyin(word)
         sentence_pinyin = generate_pinyin(sentence)
@@ -278,6 +281,7 @@ def create_anki_flashcards(word_sentence_list, cedict_dict, init_idx = 1, output
             meaning = ''
         
         sentence_english = sentence_translation if sentence_translation is not None else translate_to_english(sentence)
+        part_of_speech = '' if part_of_speech is None else part_of_speech
 
         # Handle errors in any field (skip the card if data is incomplete)
         if word_pinyin is None or meaning is None or sentence_pinyin is None or sentence_english is None:
@@ -294,7 +298,7 @@ def create_anki_flashcards(word_sentence_list, cedict_dict, init_idx = 1, output
                     word_pinyin,          # 'Pinyin' (pinyin with tone marks)
                     '',                   # 'TwPronunciation' (optional, left empty for now)
                     meaning,              # 'Meaning' (English meaning of the word)
-                    '',                   # 'Part of speech' (left empty for now, to be filled manually or via another process)
+                    part_of_speech,       # 'Part of speech' (What word class ie. Noun, adjective, etc.)
                     '',                   # 'Audio' (left empty for now)
                     sentence,             # 'SentenceSimplified' (simplified version of the example sentence)
                     '',                   # 'SentenceTraditional' (traditional version of the sentence)
