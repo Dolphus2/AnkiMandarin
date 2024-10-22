@@ -10,7 +10,7 @@ If you are comfortable with Anki, the flashcards can be migrated to a new note t
 
 ### Example input `.csv` file
 
-![Input](https://github.com/user-attachments/assets/4dd4370a-03cc-4a35-9b9e-24f875957075)
+![Input2](https://github.com/user-attachments/assets/610e5e0e-41cd-4a98-b149-fc438f13d7df)
 
 ### Anki Card Template
 
