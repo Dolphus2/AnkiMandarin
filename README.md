@@ -8,8 +8,9 @@ I made this to help review and prepare new words from the reading material in my
 
 If you are comfortable with Anki, the flashcards can be migrated to a new note type, allowing you to change the style or decide not to show translations or pinyin. A tool like HyperTTS can be used to add Text To Speech audio to the cards, as is done below.
 
-### Example input `.csv` file
+### Input `.csv` file examples
 
+![Input](https://github.com/user-attachments/assets/4dd4370a-03cc-4a35-9b9e-24f875957075)
 ![Input2](https://github.com/user-attachments/assets/610e5e0e-41cd-4a98-b149-fc438f13d7df)
 
 ### Anki Card Template
