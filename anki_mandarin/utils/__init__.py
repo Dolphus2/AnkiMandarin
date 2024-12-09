@@ -1,3 +1,3 @@
 from anki_mandarin.utils.load_utils import read_words_from_csv
 from anki_mandarin.utils.anki_utils import create_mandarin_model, create_anki_flashcards
-from anki_mandarin.utils.language_utils import generate_pinyin, translate_to_english, Word, load_cedict_simplified_dict, lookup_simplified_word
+from anki_mandarin.utils.language_utils import generate_pinyin, translate_to_english, Word, load_cedict_simplified_dict, lookup_simplified_word, load_and_combine_json_files

@@ -9,7 +9,7 @@ import genanki
 def create_mandarin_model():
     # Create a new Anki model for Mandarin flashcards with custom templates and CSS
     return genanki.Model(
-        1411383864,
+        1411383865,
         'RefoldStyleMandarinPython', # Note type # Advanced Model with All Refold Mandarin 1k Fields and more#
         fields=[
             {'name': 'Key'},
@@ -18,6 +18,7 @@ def create_mandarin_model():
             {'name': 'Pinyin'},
             {'name': 'TwPronunciation'},
             {'name': 'Meaning'},
+            {'name': 'MeaningZH'},
             {'name': 'Part of speech'},
             {'name': 'Audio'},
             {'name': 'SentenceSimplified'},
@@ -199,6 +200,13 @@ div {
     font-size: 16px;
 }
 
+details summary {
+  font-family: Didot;
+  font-size: 16px;
+  cursor: pointer; 
+  margin-top: 10px; /* Optional: spacing above */
+}
+
 .meaningSent {
     font-family: Didot;
     font-size: 16px;
@@ -252,7 +260,7 @@ div {
     )
 
 # Function to create flashcards from a list of words and sentences
-def create_anki_flashcards(word_sentence_list, cedict_dict, init_idx = 1, output_file='mandarin_flashcards.apkg'):
+def create_anki_flashcards(word_sentence_list, cedict_dict, xiandai_dict, init_idx = 1, output_file='mandarin_flashcards.apkg'):
     from anki_mandarin.utils import generate_pinyin, translate_to_english, lookup_simplified_word
     # Create a new Anki model by calling the function
     my_model = create_mandarin_model()
@@ -270,9 +278,11 @@ def create_anki_flashcards(word_sentence_list, cedict_dict, init_idx = 1, output
         key = word
         word_pinyin = generate_pinyin(word)
         sentence_pinyin = generate_pinyin(sentence)
-        word_entry = lookup_simplified_word(word, cedict_dict)
-        
+
         NO_DEFINITION_MESSAGE = f"No definition found for {word}"
+        word_entry = cedict_dict.get(word, NO_DEFINITION_MESSAGE)
+        word_entryZH = xiandai_dict.get(word, "未找到定义")
+        
         if word_entry != NO_DEFINITION_MESSAGE:
             traditional = getattr(word_entry, 'traditional', '')
             meaning = ', '.join(getattr(word_entry, 'meanings', []))
@@ -298,6 +308,7 @@ def create_anki_flashcards(word_sentence_list, cedict_dict, init_idx = 1, output
                     word_pinyin,          # 'Pinyin' (pinyin with tone marks)
                     '',                   # 'TwPronunciation' (optional, left empty for now)
                     meaning,              # 'Meaning' (English meaning of the word)
+                    word_entryZH,         # 'MeaningZH' (Chinese meaning of the word)
                     part_of_speech,       # 'Part of speech' (What word class ie. Noun, adjective, etc.)
                     '',                   # 'Audio' (left empty for now)
                     sentence,             # 'SentenceSimplified' (simplified version of the example sentence)

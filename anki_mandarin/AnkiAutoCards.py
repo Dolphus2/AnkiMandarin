@@ -1,8 +1,8 @@
 import os
 import argparse
-from anki_mandarin import load_cedict_simplified_dict, read_words_from_csv, create_anki_flashcards
+from anki_mandarin import load_cedict_simplified_dict, read_words_from_csv, create_anki_flashcards, load_and_combine_json_files
 
-def run_model(input_csv, output_file, cedict_file_path):
+def run_model(input_csv, output_file, cedict_file_path, xiandai_folder_path):
     """
     Main function to read words from a CSV file and generate Anki flashcards.
 
@@ -10,10 +10,14 @@ def run_model(input_csv, output_file, cedict_file_path):
         input_csv (str): Path to the CSV file containing words and sentences.
         output_file (str): Path to save the generated Anki flashcards package.
         cedict_file_path (str): Path to the CEDICT dictionary file.
+        xiandai_file_path (str): Path to the Xiandai dictionary folder.
     """
 
     # Load the CEDICT dictionary
     cedict_dict = load_cedict_simplified_dict(cedict_file_path)
+
+    # Load the Xaindai dictionary
+    xiandai_dict = load_and_combine_json_files(xiandai_folder_path)
 
     # Read the CSV file to get the list of words and sentences
     word_sentence_list = read_words_from_csv(input_csv)
@@ -21,7 +25,7 @@ def run_model(input_csv, output_file, cedict_file_path):
     # Check if word_sentence_list has valid entries
     if word_sentence_list:
         # Create Anki flashcards
-        create_anki_flashcards(word_sentence_list, cedict_dict=cedict_dict, init_idx=1, output_file=output_file)
+        create_anki_flashcards(word_sentence_list, cedict_dict=cedict_dict, xiandai_dict=xiandai_dict, init_idx=1, output_file=output_file)
         print(f"Anki flashcards created successfully in {output_file}.")
     else:
         print("No valid words or sentences to process.")
