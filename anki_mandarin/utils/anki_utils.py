@@ -9,7 +9,7 @@ import genanki
 def create_mandarin_model():
     # Create a new Anki model for Mandarin flashcards with custom templates and CSS
     return genanki.Model(
-        1411383865,
+        1411383866,
         'RefoldStyleMandarinPython', # Note type # Advanced Model with All Refold Mandarin 1k Fields and more#
         fields=[
             {'name': 'Key'},
@@ -19,6 +19,8 @@ def create_mandarin_model():
             {'name': 'TwPronunciation'},
             {'name': 'Meaning'},
             {'name': 'MeaningZH'},
+            {'name': 'MeaningZH2'},
+            {'name': 'MeaningZH3'},
             {'name': 'Part of speech'},
             {'name': 'Audio'},
             {'name': 'SentenceSimplified'},
@@ -36,7 +38,7 @@ def create_mandarin_model():
         ],
         templates=[
             {
-                'name': 'WordFirst',
+                'name': 'Refold_genanki_py',
                 'qfmt': '''
 <div lang="zh-Hans" class="hanzi whover" style="--pinyin: '{{Pinyin}}{{#TwPronunciation}}, Taiwanese Pronunciation: {{TwPronunciation}}{{/TwPronunciation}}'">{{Simplified}}</div>
 <div class="pinyin"><br></div>
@@ -47,14 +49,21 @@ def create_mandarin_model():
 <div class="pinyinSen whover">{{SentencePinyin}}</div>
                 ''',
                 'afmt': '''
-<div lang="zh-Hans" class="hanzi">{{Simplified}}</div>
-<div class="pinyin">{{Pinyin}}{{#TwPronunciation}}, Taiwanese Pronunciation: {{TwPronunciation}}{{/TwPronunciation}}</div>
-<div class="english">{{Meaning}}</div>
+<div lang="zh-Hans" class="hanzi whover" style="--pinyin: '{{Pinyin}}{{#TwPronunciation}}, Taiwanese Pronunciation: {{TwPronunciation}}{{/TwPronunciation}}'">{{Simplified}}</div>
+<div class="english">{{MeaningZH}}</div>
+<div class="english">{{MeaningZH2}}</div>
+<div class="english">{{MeaningZH3}}</div>
+<details>
+  <summary>Bilingual</summary>
+  <br>
+  <div class="english">{{Meaning}}</div>
+</details>
+<br><br>
 <div class="description">{{Part of speech}}</div>
 <hr>
-<div lang="zh-Hans" class="sentence">{{SentenceSimplified}}</div>
-<div class="pinyinSen">{{SentencePinyin}}</div>
-<div class="meaningSent">{{SentenceMeaning}}</div>
+<div lang="zh-Hans" class="sentence" style="--pinyin: {{SentencePinyin}}">{{SentenceSimplified}}</div>
+<div class="pinyinSen whover">{{SentencePinyin}}</div>
+<!-- <div class="meaningSent">{{SentenceMeaning}}</div>  -->
 {{Audio}} {{SentenceAudio}}
 <br>
 {{#Source}}Source: {{Source}}{{/Source}}
@@ -62,6 +71,7 @@ def create_mandarin_model():
 {{#Note}}Note: {{Note}}{{/Note}}
 <br>
 <div class="image">{{SentenceImage}}</div>
+ <!-- <div class="image">{{SentenceImage}}</div> -->
                 '''
             },
         ],
@@ -260,7 +270,7 @@ details summary {
     )
 
 # Function to create flashcards from a list of words and sentences
-def create_anki_flashcards(word_sentence_list, cedict_dict, xiandai_dict, init_idx = 1, output_file='mandarin_flashcards.apkg'):
+def create_anki_flashcards(word_sentence_list, cedict_dict, xiandai_dict, moe_dict, init_idx = 1, output_file='mandarin_flashcards.apkg'):
     from anki_mandarin.utils import generate_pinyin, translate_to_english, lookup_simplified_word
     # Create a new Anki model by calling the function
     my_model = create_mandarin_model()
@@ -272,8 +282,8 @@ def create_anki_flashcards(word_sentence_list, cedict_dict, xiandai_dict, init_i
 
     # Loop over the words and sentences
     for row in word_sentence_list:
-        word, sentence, sentence_translation, part_of_speech = \
-            (row['word'], row['sentence'], row['sentence_translation'], row['part_of_speech'])
+        word, sentence, sentence_translation, explanation, part_of_speech = \
+            (row['word'], row['sentence'], row.get('sentence_translation',''), row.get('explanation',''), row['part_of_speech'])
 
         key = word
         word_pinyin = generate_pinyin(word)
@@ -282,6 +292,8 @@ def create_anki_flashcards(word_sentence_list, cedict_dict, xiandai_dict, init_i
         NO_DEFINITION_MESSAGE = f"No definition found for {word}"
         word_entry = cedict_dict.get(word, NO_DEFINITION_MESSAGE)
         word_entryZH = xiandai_dict.get(word, "未找到定义")
+        word_entryZH2 = moe_dict.get(word, "未找到定义")
+        word_entryZH3 = explanation if explanation is not None else ''
         
         if word_entry != NO_DEFINITION_MESSAGE:
             traditional = getattr(word_entry, 'traditional', '')
@@ -309,6 +321,8 @@ def create_anki_flashcards(word_sentence_list, cedict_dict, xiandai_dict, init_i
                     '',                   # 'TwPronunciation' (optional, left empty for now)
                     meaning,              # 'Meaning' (English meaning of the word)
                     word_entryZH,         # 'MeaningZH' (Chinese meaning of the word)
+                    word_entryZH2,        # 'MeaningZH2' (Chinese meaning of the word (2. dictinoary))
+                    word_entryZH3,        # 'MeaningZH3' (Chinese meaning of the word (3. dictionary))
                     part_of_speech,       # 'Part of speech' (What word class ie. Noun, adjective, etc.)
                     '',                   # 'Audio' (left empty for now)
                     sentence,             # 'SentenceSimplified' (simplified version of the example sentence)

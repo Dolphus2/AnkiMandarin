@@ -23,8 +23,9 @@ if __name__ == "__main__":
         output_file = os.path.join(base_dir, 'Output', f'PythonMandarin_{csv_name}.apkg')
         cedict_file_path = os.path.join(base_dir, 'Dictionary', 'cedict_ts.u8')
         xiandai_folder_path = os.path.join(base_dir, 'Dictionary', 'Xiandai')
+        moe_folder_path = os.path.join(base_dir, 'Dictionary', 'MoeDict')
 
         # Run the main function with parsed arguments
-        run_model(input_csv, output_file, cedict_file_path, xiandai_folder_path)
+        run_model(input_csv, output_file, cedict_file_path, xiandai_folder_path, moe_folder_path)
     else:
         print(f"CSV file '{csv_name}' not found in the 'data' subdirectories.")

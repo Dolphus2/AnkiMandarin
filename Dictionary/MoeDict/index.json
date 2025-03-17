@@ -1,0 +1,9 @@
+{
+    "title":"MoEdict",
+    "revision":"MoEdict-2024_04-19",
+    "format":3,
+    "description":"萌典 (mengdian) is a digital Chinese dictionary developed by Taiwanese free software programmer Tang Feng. It is one of the projects of Taiwan's open source community g0v Zero Hour Government. As a digital Chinese dictionary, Mengdian not only contains 160,000 entries in Mandarin, but also contains 20,000 entries in Taiwanese Hokkien, 14,000 entries in Taiwanese Hakka, and provides comparisons with English, French and German.\nThe website author Tang Feng released it into the public domain under the Creative Commons CC 0 license.\n(Information taken from Wikipedia; the name MoEdict and abbreviation for 'Ministery of Education's dictionary')",
+    "sequenced":true,
+    "authors":"Tang Feng created the dictionary's content; Chronos made it available for yomitan.",
+    "attribution":"Tang Feng"
+}
