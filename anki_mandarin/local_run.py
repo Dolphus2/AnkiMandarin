@@ -1,8 +1,6 @@
 import os
 from anki_mandarin import run_model
 
-import os
-
 def find_csv_in_subdirectories(base_dir, csv_name):
     for root, dirs, files in os.walk(base_dir):
         if csv_name in files:
