@@ -9,7 +9,7 @@ def convert_subtitles_to_simplified(input_file: str, output_file: str):
         input_file (str or Path): Path to the input subtitle file.
         output_file (str or Path): Path to save the converted subtitle file.
     """
-    converter = opencc.OpenCC('tw2sp.json')
+    converter = opencc.OpenCC('tw2s.json')
 
     input_path = Path(input_file)
     output_path = Path(output_file)

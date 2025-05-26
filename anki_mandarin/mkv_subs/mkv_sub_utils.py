@@ -6,7 +6,7 @@ import json
 # Note: The mkvtoolnix package is required for this code to work. It can be installed using your system's package manager.
 
 # --- Helper: Load track info ---
-def load_mkv_track_info(mkv_file):
+def load_mkv_track_info(mkv_file: Path):
     result = subprocess.run(
         ["mkvmerge", "-J", mkv_file],
         capture_output=True,
@@ -14,6 +14,11 @@ def load_mkv_track_info(mkv_file):
         check=True
     )
     return json.loads(result.stdout)
+
+def get_existing_subtitle_tracks(mkv_file: Path) -> list:
+    """Return a list of subtitle track IDs in the MKV file using mkvmerge JSON output."""
+    info = load_mkv_track_info(mkv_file)
+    return [t for t in info.get("tracks", []) if t.get("type") == "subtitles"]
 
 
 # --- Helper: Select subtitle track automatically ---
@@ -66,9 +71,55 @@ def extract_subtitles(mkv_file, output_dir, preferred_lang = "chi", manual_track
 
     print(f"Extracted subtitle track {track_id} to {output_file}")
 
+def add_simplified_sub_to_mkv(
+    input_mkv: Path,
+    subtitle_file: Path,
+    output_mkv: Path,
+    language: str = "chi",
+    track_name: str = "Chinese (Simplified)"
+):
+    if not input_mkv.exists() or not subtitle_file.exists():
+        print(f"Missing: {input_mkv} or {subtitle_file}")
+        return
+
+    # Build command: copy all existing tracks from mkv + add new subtitle
+    command = [
+        "mkvmerge", "-o", str(output_mkv),
+        str(input_mkv),
+        "--language", "0:" + language,
+        "--track-name", f"0:{track_name}",
+        str(subtitle_file)
+    ]
+
+    subprocess.run(command, check=True)
+    print(f"Added simplified subs to: {output_mkv.name}")
+
+def batch_add_simplified_subs(mkv_dir: str, srt_dir: str, output_dir: str):
+    mkv_dir = Path(mkv_dir)
+    srt_dir = Path(srt_dir)
+    output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    for mkv_file in mkv_dir.glob("*.mkv"):
+        # Find any .srt file in srt_dir that starts with the mkv_file's stem
+        matching_srts = list(srt_dir.glob(f"{mkv_file.stem}*.srt"))
+
+        if not matching_srts:
+            print(f"No .srt file found for {mkv_file.name}")
+            continue
+
+        # Use the first matching subtitle
+        srt_file = matching_srts[0]
+        output_file = output_dir / mkv_file.name
+
+        add_simplified_sub_to_mkv(
+            input_mkv=mkv_file,
+            subtitle_file=srt_file,
+            output_mkv=output_file
+        )
 
 if __name__ == "__main__":
-    # --- Configuration ---
+    
     input_dir = Path(r"C:\Users\Gabriel\MyFiles\Lokale Filer\Kina\MyChinese\Anki\AnkiMandarin\data\TraditionalSubtitles\Test1")
     output_dir = Path(r"C:\Users\Gabriel\MyFiles\Lokale Filer\Kina\MyChinese\Anki\AnkiMandarin\data\TraditionalSubtitles\Test2")
     preferred_lang = "chi"
