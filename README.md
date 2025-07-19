@@ -26,7 +26,7 @@ If you are comfortable with Anki, the flashcards can be migrated to a new note t
 
 You will need Git to clone the repository and a Python installation to run the program.
 
-If you don't have GIt, download from [git-scm.com](https://git-scm.com/) and follow the installation instructions.
+If you don't have Git, download from [git-scm.com](https://git-scm.com/) and follow the installation instructions.
 If you don't have Python setup, I recommend downloading Miniconda [miniconda official site](https://docs.conda.io/en/latest/miniconda.html) and following the installation instructions.
 
 ## Installation
