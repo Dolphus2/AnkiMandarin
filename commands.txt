@@ -1,1 +1,0 @@
-python anki_madarin/AnkiAutoCards.py --input_csv data/NanDa/ZongHe/Week3.csv --output_file Output/mandarin_flashcards.apkg --cedict_file Dictionary/cedict_ts.u8
