@@ -11,6 +11,7 @@ def load_mkv_track_info(mkv_file: Path):
         ["mkvmerge", "-J", mkv_file],
         capture_output=True,
         text=True,
+        encoding="utf-8",  # <-- force UTF-8!
         check=True
     )
     return json.loads(result.stdout)
@@ -94,7 +95,7 @@ def add_simplified_sub_to_mkv(
     subprocess.run(command, check=True)
     print(f"Added simplified subs to: {output_mkv.name}")
 
-def batch_add_simplified_subs(mkv_dir: str, srt_dir: str, output_dir: str):
+def batch_add_simplified_subs(mkv_dir: Path, srt_dir: Path, output_dir: Path):
     mkv_dir = Path(mkv_dir)
     srt_dir = Path(srt_dir)
     output_dir = Path(output_dir)

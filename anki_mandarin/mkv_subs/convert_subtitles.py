@@ -1,7 +1,7 @@
 from pathlib import Path
 import opencc
 
-def convert_subtitles_to_simplified(input_file: str, output_file: str):
+def convert_subtitles_to_simplified(input_file: Path, output_file: Path):
     """
     Convert a subtitle file from Traditional to Simplified Chinese using OpenCC.
     
