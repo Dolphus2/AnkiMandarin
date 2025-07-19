@@ -1,5 +1,5 @@
 # AnkiMandarin
-Automating the boring stuff for my Mandarin Anki cards.
+Automating the boring stuff for my Mandarin Anki cards. Also contains a module to convert MKV video file subtitles from traditional to simplified characters.
 
 AnkiMandarin automates the creation of Mandarin Anki flashcards from words and example sentences.
 This is a simple Python package that takes a data `.csv` file with Chinese words and sentence examples as input, and outputs a nicely formatted Anki deck with pinyin, a dictionary lookup for the main word, and a rough translation using a Google Translate API. Sentence translation and word classes can also optionally be provided in the `.csv` file.
