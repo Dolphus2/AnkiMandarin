@@ -3,7 +3,7 @@ from pathlib import Path
 import subprocess
 import json
 
-# Note: The mkvtoolnix package is required for this code to work. It can be installed using your system's package manager.
+# Note: The mkvtoolnix package is required for this code to work.
 
 # --- Helper: Load track info ---
 def load_mkv_track_info(mkv_file: Path):
