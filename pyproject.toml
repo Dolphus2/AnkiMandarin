@@ -1,19 +1,23 @@
 [build-system]
-requires = ["setuptools", "setuptools-scm"]
+requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "anki_mandarin"
+version = "1.0.0"
+description = "Automating the creation of Mandarin Anki cards from words and example sentences."
 authors = [
     {name = "Gabriel Agerholm Ruge", email = "gabrielruge@gmail.com"}
 ]
-description = "Automating the creating of mandarin anki cards from words and example sentences."
-version = "1.0.0"
 readme = "README.md"
 requires-python = ">=3.10"
-
-[tool.setuptools.dynamic]
-dependencies = {file = ["requirements.txt"]}
+dependencies = [
+    "cedict-utils>=0.0.13",
+    "charset-normalizer>=3.4.7",
+    "genanki>=0.13.1",
+    "googletrans>=4.0.2",
+    "pypinyin>=0.55.0",
+]
 
 [tool.setuptools]
 packages = ["anki_mandarin"]

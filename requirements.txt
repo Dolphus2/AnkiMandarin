@@ -2,7 +2,4 @@ genanki
 pypinyin
 googletrans
 cedict-utils
-dataclasses
 charset-normalizer
-opencc
-# mkvtoolnix is required as well
